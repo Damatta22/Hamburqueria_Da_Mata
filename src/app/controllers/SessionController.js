@@ -15,6 +15,7 @@ class SessionController {
         .json({ error: 'Make sure your password or email are correct' })
     }
     const { email, password } = request.body
+
     const user = await User.findOne({
       where: { email },
     })
@@ -33,7 +34,7 @@ class SessionController {
       email: user.email,
       name: user.name,
       admin: user.admin,
-      token: jwt.sign({ id: user.id }, authConfig.secret, {
+      token: jwt.sign({ id: user.id, name: user.name }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
     })
